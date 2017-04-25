@@ -1,0 +1,28 @@
+"" or '' : to put line of text (string) in the code
+""" """ or ''' ''' : to put multiple lines of text in the code
+print : print text to the prompt
+%s/%d/%f/... : used in the text next to 'print' and is replaced by variables value
+% : is used next to 'print' to put variable into the text
+\n : carriage return
+\ : used in the text to 'escape' characters like ' or "
+
+= : assign something to a variable
++= : append something to a variable
+def : used to define a function
+: : end the definition of a function
+
+from : used to make code from a module available
+import : used to import a function from a module
+sys : base module (always available) containing function used to interact with the interpreter
+os.path : module containing function to interact with path names
+argv : takes the arguments given to the script (first is the name of the script)
+exists : function from 'os.path' which can detect if a path exists
+
+raw_input() : take an input from the user from the prompt
+len() : return the lenght of an object (string in our example)
+open() : is used to open a file and turn it into a file object. You can use arguments to open files in different mode (r:read, w:write, ...)
+.read() : used to read (take) all the content of a file object
+.readline() : read just one line of a file
+.close() : used to close a file object so it is not in the RAM anymore
+.write() : used to write text into file
+.truncate() : erase the content of a file
