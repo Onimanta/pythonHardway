@@ -39,4 +39,4 @@ elif email == "2":
     print "After you finished the course you start a personnal project with what you learned."
     print "You're project is really well received by people and you're earning money doing what you like. Yaaay !"
 else:
-    print "Either you thinked out of the box or you did random thing with the prompt. Good job !"
+    print "Either you thinked out of the box or you did random things with the prompt. Good job !"
