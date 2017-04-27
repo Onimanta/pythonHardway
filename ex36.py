@@ -207,10 +207,11 @@ def big_monster():
 
 def choose_intruder():
     """Here there is going to be an enigma to resolve."""
-    print "After wandering a moment you arrive in front of a massive metal door."
-    print "The door is placed between two huge piles of trash and a giant snake is wrapped around it. It seems to be a Pyhton.."
+    print "After wandering a moment, you arrive in front of a massive metal door. It must be well over 100 meters high."
+    print "The door is placed between two huge piles of trash and an enormous snake is wrapped around it. It seems to be a Python.."
     print "After coming closer to the door you notice a small cathodic screen and something which looks like a keyboard."
-    print "You have the impression of hearing a voice coming from the snake \"I want a x dictionary which contain the values 2, 7 and 13\""
+    print "You have the impression of hearing a voice coming from the snake."
+    print "\"I want a dictionary called x which contains the values 2, 7 and 13.\""
     print "Not sure what that means.. You're now in front of the keyboard. What do you do ?"
 
     while True:
@@ -221,7 +222,18 @@ def choose_intruder():
         else:
             print ""
 
-        print "The screen explode and it blows your head away"
+        keyboard = raw_input("> ")
+
+        if keyboard == "1":
+            print "You put your fingers on the keyboard and see a \"prompt\" appear on the little screen."
+            door_input = raw_input(">> ")
+            check_python_input(door_input)
+        elif keyboard == "2":
+            print "The screen explode and it blows your head away"
+        elif keyboard == "3":
+            print ""
+        else:
+            print ""
 
 def two_monsters():
     """Here the player will have to fight two enemies at the same time."""
@@ -243,5 +255,4 @@ weapon = None
 # We also declare it globally in each functions so it stay persistent
 weapons = ['bat', 'trash lid', 'dead fish']
 
-testexec = exec "2 ** 4"
-print testexec
+exec "nimp"
