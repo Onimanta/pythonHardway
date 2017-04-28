@@ -101,17 +101,21 @@ def python_prompt():
     # We check if the input of the user match the regex
     execute = list_pattern.match(user_input)
     if execute: # test if there is something in 'execute' (if the input match the regex)
-        exec user_input in {'user_input': user_input}, {'user_input': user_input} # execute the user input [DON'T WORK!]
+        x = 23
+        exec "x = 32" # execute the user input [DON'T WORK!]
+        print x
         if all(x in v for x in [2, 7, 13]): # test if the values 2, 7 and 13 are in the list v
             print "The voice comes again in your head."
             print "Mmmmh.. You ssseem to know how to use the language of the chosen. You can passs.."
             worked = True
+        else:
+            print "SOMETHING"
     else:
         print "That doesn't seem to work."
         if "=" not in user_input:
             print "Maybe you should try to use the \"=\" character.."
         elif "v" not in user_input:
-            print "Starting with a \"v\" seems to be a good idea."
+            print "Starting with a \"v\" may be a good idea."
         else:
             print "The voice come again in your head."
             print "You're not far from the anssswer.."
@@ -318,4 +322,4 @@ weapon = None
 weapons = ['bat', 'trash lid', 'dead fish']
 
 weapon = 'bat'
-door_enigma()
+python_prompt()
