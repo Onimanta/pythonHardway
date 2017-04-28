@@ -1,9 +1,10 @@
-from sys import exit
-from random import choice
+from sys import exit # Used to quit the script without having to reach the end
+from random import choice # Used to make "random" choices
+from re import compile, match # Used to check if the input of the user match a given pattern
 
 def random_area(areas):
     """Make the player go to a random area
-    :param areas: list of areas of the game from : monster, big_monster, choose_intruder,
+    :param areas: list of areas of the game from : monster, big_monster, door_enigma,
                   two_monsters, clones_monster
     """
     area = choice(areas)
@@ -11,8 +12,8 @@ def random_area(areas):
         monster()
     elif area == 'big_monster':
         big_monster()
-    elif area == 'choose_intruder':
-        choose_intruder()
+    elif area == 'door_enigma':
+        door_enigma()
     elif area == 'two_monsters':
         two_monsters()
     elif area == 'clones_monster':
@@ -20,11 +21,12 @@ def random_area(areas):
     else:
         start()
 
-def use_weapon(weapon, foe):
+def use_weapon(foe):
     """Test the use of a weapon on a foes and print the result.
     It also tell the player that the weapon is broken and remove it from him.
     :return worked: Tell if the use of the weapon worked on the foe.
     """
+    global weapon
 
     worked = False
 
@@ -67,8 +69,10 @@ def use_weapon(weapon, foe):
             print "You throw the dead fish in his face."
             print "The monster, disgusted, goes back home (some says that he becomes a family monster)."
             worked = True
-        elif foe == 'choose_intruder':
-            print ""
+        elif foe == 'door_enigma':
+            print "You take the dead fish out of your pocket and you look at him."
+            print "After a moment of reflexion your start slamming it violently on the keyboard."
+            print "The snake, terrorized by what you're doing, go away in a hurry. The giant door opens slowly."
         else:
             print "The %s didn't worked on the %s." % (weapon, foe)
             worked = False
@@ -79,6 +83,39 @@ def use_weapon(weapon, foe):
 
     print "Sadly, your %s is now broken." % weapon
     weapon = None
+    return worked
+
+def python_prompt():
+    """Prompt the user and check the syntax of the input.
+    If the syntax is ok, check if the content of the variable complies with what we asked him.
+    :return worked: boolean which tell if the user writed the right answer in the prompt.
+    """
+    worked = False
+
+    prompt = "\t>> "
+    user_input = raw_input(prompt)
+
+    # We create a regex to check if the syntax of a text correspond to
+    # an assignation of a list of numbers to a variable called "v"
+    list_pattern = compile("^v\s*=\s*\[(\d(,\d)*)+\]\s*$")
+    # We check if the input of the user match the regex
+    execute = list_pattern.match(user_input)
+    if execute: # test if there is something in 'execute' (if the input match the regex)
+        exec user_input in {'user_input': user_input}, {'user_input': user_input} # execute the user input [DON'T WORK!]
+        if all(x in v for x in [2, 7, 13]): # test if the values 2, 7 and 13 are in the list v
+            print "The voice comes again in your head."
+            print "Mmmmh.. You ssseem to know how to use the language of the chosen. You can passs.."
+            worked = True
+    else:
+        print "That doesn't seem to work."
+        if "=" not in user_input:
+            print "Maybe you should try to use the \"=\" character.."
+        elif "v" not in user_input:
+            print "Starting with a \"v\" seems to be a good idea."
+        else:
+            print "The voice come again in your head."
+            print "You're not far from the anssswer.."
+
     return worked
 
 def start():
@@ -127,7 +164,7 @@ def monster():
 
     if man == "1":
         print "You pass behind the chair and go away from the man."
-        random_area(['big_monster', 'choose_intruder'])
+        random_area(['big_monster', 'door_enigma'])
     elif man == "2":
         print "The man wakes up."
         print "Now he's standing, pointing at you with a bazooka on his shoulder. What do you do ?"
@@ -147,9 +184,9 @@ def monster():
 
     elif man == "3":
 
-        if use_weapon(weapon, 'man'):
+        if use_weapon('man'):
             print "You continue your way randomly."
-            random_area(['big_monster', 'choose_intruder'])
+            random_area(['big_monster', 'door_enigma'])
         else:
             dead("The man wakes up and stares at you. You're scared to death(literally).")
 
@@ -196,7 +233,7 @@ def big_monster():
             monster_moved = True
         elif monster == "3":
 
-            if use_weapon(weapon,'monster'):
+            if use_weapon('monster'):
                 print "After you tamed the monster, you continue your way."
                 two_monsters()
             else:
@@ -205,16 +242,21 @@ def big_monster():
         else:
             dead("That don't worked really well..")
 
-def choose_intruder():
+def door_enigma():
     """Here there is going to be an enigma to resolve."""
-    print "After wandering a moment, you arrive in front of a massive metal door. It must be well over 100 meters high."
+    global weapon
+    global weapons
+
+    print "After wandering a moment, you arrive in front of a massive metal door."
     print "The door is placed between two huge piles of trash and an enormous snake is wrapped around it. It seems to be a Python.."
     print "After coming closer to the door you notice a small cathodic screen and something which looks like a keyboard."
     print "You have the impression of hearing a voice coming from the snake."
-    print "\"I want a dictionary called x which contains the values 2, 7 and 13.\""
-    print "Not sure what that means.. You're now in front of the keyboard. What do you do ?"
+    print "\"I want a lissst called \'v\' which contains the values two, ssseven and thirteen..\""
+    print "Not sure what that means.. You're now in front of the keyboard."
+    explode = 1
 
     while True:
+        print "What do you do?"
         print "1. Try to type something"
         print "2. Give a kick to the door"
         if weapon:
@@ -222,18 +264,38 @@ def choose_intruder():
         else:
             print ""
 
+
         keyboard = raw_input("> ")
 
         if keyboard == "1":
             print "You put your fingers on the keyboard and see a \"prompt\" appear on the little screen."
-            door_input = raw_input(">> ")
-            check_python_input(door_input)
+            answer = python_prompt()
+
+            if answer:
+                print "You hear a loud metallic sound. The giant door opens slowly."
+                print "You pass the door and continue your way."
+                clones_monster()
+            else:
+                print "The massive door is still closed in front of you."
+
         elif keyboard == "2":
-            print "The screen explode and it blows your head away"
+
+            if explode <= 2:
+                print "It calmed you down a bit but that don't seems to make things better."
+                explode += 1
+            else:
+                dead("The screen explode and it blows your head off.")
+
         elif keyboard == "3":
-            print ""
+
+            if use_weapon('door'):
+                print "You pass the door and continue your way."
+                clones_monster()
+            else:
+                print "The door stays still."
+
         else:
-            print ""
+            print "That's not how you're going to move that door."
 
 def two_monsters():
     """Here the player will have to fight two enemies at the same time."""
@@ -255,4 +317,5 @@ weapon = None
 # We also declare it globally in each functions so it stay persistent
 weapons = ['bat', 'trash lid', 'dead fish']
 
-exec "nimp"
+weapon = 'bat'
+door_enigma()
