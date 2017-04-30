@@ -1,17 +1,22 @@
-def test():
-    print "-----------"
-    print globals()
-    print locals()
+def func():
+    user_input = raw_input("> ")
+    v = [2, 7, 13]
+    v = execute(user_input)
+    print v
+    if all(x in v for x in [2, 7, 13]):
+        print v
+    else:
+        print "else func2"
 
-def appeltest(x):
-    if x > 200:
-        x = raw_input(">")
-        exec "x = 223"
-        print x
-    test()
+    return True
 
-x = 200
-exec "x = 300"
-print x
+def execute(user_input):
+    exec user_input
+    return v
 
-appeltest(x)
+func()
+
+# test = raw_input(">  ")
+# v=[11,22]
+# exec test in locals()
+# print v

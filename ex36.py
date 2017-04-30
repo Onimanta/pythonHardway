@@ -85,40 +85,52 @@ def use_weapon(foe):
     weapon = None
     return worked
 
+def execute_user_input(player_input):
+    """Execute the player input with exec and return the content of the variable he created.
+    This function is a workaround for the error : SyntaxError: unqualified exec is not allowed in function 
+    'python_prompt' because it contains a nested function with free variables
+    I succeeded to correct this error but exec didn't work anymore with the correction so I created this function to
+    bypass the error. Follow this link for complete explanation of the error:
+    http://stackoverflow.com/questions/4484872/in-python-why-doesnt-exec-work-in-a-function-with-a-subfunction"""
+    exec player_input
+    return v # v should be declared by 'player_input'. The check for that is done in the 'python_prompt()' function
+
 def python_prompt():
     """Prompt the user and check the syntax of the input.
     If the syntax is ok, check if the content of the variable complies with what we asked him.
-    :return worked: boolean which tell if the user writed the right answer in the prompt.
+    :return worked: boolean which tell if the player writed the right answer in the prompt.
     """
+    global ingame_prompt
     worked = False
 
-    prompt = "\t>> "
-    user_input = raw_input(prompt)
+    player_input = raw_input(ingame_prompt + "\t>> ")
 
     # We create a regex to check if the syntax of a text correspond to
     # an assignation of a list of numbers to a variable called "v"
     list_pattern = compile("^v\s*=\s*\[(\d(,\d)*)+\]\s*$")
     # We check if the input of the user match the regex
-    execute = list_pattern.match(user_input)
+    execute = list_pattern.match(player_input)
     if execute: # test if there is something in 'execute' (if the input match the regex)
-        x = 23
-        exec "x = 32" # execute the user input [DON'T WORK!]
-        print x
+        v = execute_user_input(player_input)
         if all(x in v for x in [2, 7, 13]): # test if the values 2, 7 and 13 are in the list v
             print "The voice comes again in your head."
             print "Mmmmh.. You ssseem to know how to use the language of the chosen. You can passs.."
             worked = True
         else:
-            print "SOMETHING"
+            print "The voice comes again in your head."
+            print "The anssswer is not far away.."
     else:
         print "That doesn't seem to work."
-        if "=" not in user_input:
+        if "=" not in player_input:
             print "Maybe you should try to use the \"=\" character.."
-        elif "v" not in user_input:
+        elif "v" not in player_input:
             print "Starting with a \"v\" may be a good idea."
         else:
-            print "The voice come again in your head."
-            print "You're not far from the anssswer.."
+            print "The voice comes again in your head."
+            print "The anssswer is not far away.."
+
+    # We add the player input to the previous prompt text to simulate a real prompt
+    ingame_prompt = "%s\t%s\n" % (ingame_prompt, player_input)
 
     return worked
 
@@ -268,11 +280,10 @@ def door_enigma():
         else:
             print ""
 
-
         keyboard = raw_input("> ")
 
         if keyboard == "1":
-            print "You put your fingers on the keyboard and see a \"prompt\" appear on the little screen."
+            print "You put your fingers on the keyboard and see a \"prompt\" on the little screen."
             answer = python_prompt()
 
             if answer:
@@ -320,6 +331,6 @@ weapon = None
 # This is the list of the usable weapons of the game.
 # We also declare it globally in each functions so it stay persistent
 weapons = ['bat', 'trash lid', 'dead fish']
-
-weapon = 'bat'
-python_prompt()
+# Contain the text of the ingame prompt used in the door_enigma area
+# Declared globally in the python_prompt() function to keep the input of the player in memory
+ingame_prompt = ""
