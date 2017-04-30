@@ -2,6 +2,16 @@ from sys import exit # Used to quit the script without having to reach the end
 from random import choice # Used to make "random" choices
 from re import compile, match # Used to check if the input of the user match a given pattern
 
+# This is the weapon of the player.
+# It will be declared globally in each functions so it remains persistent during all the adventure.
+weapon = None
+# This is the list of the usable weapons of the game.
+# We also declare it globally in each functions so it stay persistent
+weapons = ['bat', 'trash lid', 'dead fish']
+# Contain the text of the ingame prompt used in the door_enigma area
+# Declared globally in the python_prompt() function to keep the input of the player in memory
+ingame_prompt = ""
+
 def random_area(areas):
     """Make the player go to a random area
     :param areas: list of areas of the game from : monster, big_monster, door_enigma,
@@ -324,13 +334,3 @@ def dead(why):
     """Tell the player why he/she's dead and end the adventure."""
     print why, "Good job!"
     exit(0)
-
-# This is the weapon of the player.
-# It will be declared globally in each functions so it remains persistent during all the adventure.
-weapon = None
-# This is the list of the usable weapons of the game.
-# We also declare it globally in each functions so it stay persistent
-weapons = ['bat', 'trash lid', 'dead fish']
-# Contain the text of the ingame prompt used in the door_enigma area
-# Declared globally in the python_prompt() function to keep the input of the player in memory
-ingame_prompt = ""
