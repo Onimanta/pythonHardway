@@ -1,5 +1,5 @@
 from sys import exit # Used to quit the script without having to reach the end
-from random import choice # Used to make "random" choices
+from random import choice, randint # Used to make "random" choices
 from re import compile, match # Used to check if the input of the user match a given pattern
 
 # This is the weapon of the player.
@@ -46,8 +46,10 @@ def use_weapon(foe):
             print "The man wakes up as you take your bat off of your pocket."
             print "You hit him in the knees with your bat. The man finishes off on the ground. Crying."
             worked = True
-        elif foe == 'two_monsters':
-            print ""
+        elif foe == 'motorbike_men':
+            print "You put your two feet firmly on the ground, preparing you for the coming of the two men."
+            print "When they are in front of you make a big swing with your bat and hit them both at the same time."
+            worked = True
         else:
             print "The %s didn't worked on the %s." % (weapon, foe)
             worked = False
@@ -95,7 +97,7 @@ def use_weapon(foe):
     weapon = None
     return worked
 
-def execute_user_input(player_input):
+def execute_player_input(player_input):
     """Execute the player input with exec and return the content of the variable he created.
     This function is a workaround for the error : SyntaxError: unqualified exec is not allowed in function 
     'python_prompt' because it contains a nested function with free variables
@@ -104,6 +106,20 @@ def execute_user_input(player_input):
     http://stackoverflow.com/questions/4484872/in-python-why-doesnt-exec-work-in-a-function-with-a-subfunction"""
     exec player_input
     return v # v should be declared by 'player_input'. The check for that is done in the 'python_prompt()' function
+
+def print_clones(list):
+    """Print a list to the player so that he can have a visual feedback.
+    Can't print lists which have more than 10 elements for display reason.
+    """
+    enemies = ""
+    numbers = ""
+    i = 1
+    for ennemy in list:
+        enemies += ennemy
+        numbers += "%d " % i
+        i += 1
+    print enemies
+    print numbers
 
 def python_prompt():
     """Prompt the user and check the syntax of the input.
@@ -117,14 +133,14 @@ def python_prompt():
 
     # We create a regex to check if the syntax of a text correspond to
     # an assignation of a list of numbers to a variable called "v"
-    list_pattern = compile("^v\s*=\s*\[(\d(,\d)*)+\]\s*$")
+    list_pattern = compile("^v\s*=\s*\[(\s*\d\s*(,\s*\d\s*)*)+\]\s*$")
     # We check if the input of the user match the regex
     execute = list_pattern.match(player_input)
     if execute: # test if there is something in 'execute' (if the input match the regex)
-        v = execute_user_input(player_input)
+        v = execute_player_input(player_input)
         if all(x in v for x in [2, 7, 13]): # test if the values 2, 7 and 13 are in the list v
             print "The voice comes again in your head."
-            print "Mmmmh.. You ssseem to know how to use the language of the chosen. You can passs.."
+            print "Mmmmh.. You ssseem to know how to use the language of the masters. You can passs.."
             worked = True
         else:
             print "The voice comes again in your head."
@@ -150,7 +166,7 @@ def start():
     global weapon
     global weapons
 
-    print "You are in a large area. There's almost nothing here, just some big piles of trash here and there."
+    print "You are in a large area. There's nothing here, just some big piles of trash here and there."
     if len(weapons) > 0 and not weapon:
         print "On the ground there's %d items. Which one do you take?" % len(weapons)
         for item in weapons:
@@ -162,7 +178,7 @@ def start():
         if item <= len(weapons) and item > 0:
             weapon = weapons[item - 1]
             weapons.pop(item - 1)
-            print "After picking the item you wander randomly trough the area."
+            print "After picking the item, you wander randomly trough the area."
             monster()
         else:
             weapon = None
@@ -229,7 +245,7 @@ def big_monster():
     print "You hear a loud noise coming from a bit further. It seems like it's from something really big."
     print "You look in the direction of the noise and see a gigantic dragon-like monster."
     print "There seems to be something really cool behind the monster so you decide to go face him."
-    print "It seems that your presence is really pisses him off, he want you to get out of here."
+    print "It seems that your presence really pisses him off, he want you to get out of here."
     monster_moved = False
 
     while True:
@@ -250,10 +266,10 @@ def big_monster():
             print "After you stopped to watch the spectacle, you continue your way."
             two_monsters()
         elif monster == "1" and not monster_moved:
-            dead("The monster watch you run at him and eats you like you were a running biscuits")
+            dead("The monster watch you run at him and eats you like you were a running biscuits.")
         elif monster == "2" and monster_moved:
             print "The monster takes you in is mouth before you can finish your sentence."
-            print("He sends you flying in the air, burns you with is breath of fire and eats you as fall.")
+            dead("He sends you flying in the air, burns you with is breath of fire and eats you as you fall.")
         elif monster == "2" and not monster_moved:
             print "The monster really don't liked what you did. He runs at you to crush you."
             monster_moved = True
@@ -299,7 +315,7 @@ def door_enigma():
             if answer:
                 print "You hear a loud metallic sound. The giant door opens slowly."
                 print "You pass the door and continue your way."
-                clones_monster()
+                clones_monster(False)
             else:
                 print "The massive door is still closed in front of you."
 
@@ -315,7 +331,7 @@ def door_enigma():
 
             if use_weapon('door'):
                 print "You pass the door and continue your way."
-                clones_monster()
+                clones_monster(False)
             else:
                 print "The door stays still."
 
@@ -324,13 +340,106 @@ def door_enigma():
 
 def two_monsters():
     """Here the player will have to fight two enemies at the same time."""
-    print "TWO MONSTER"
+    global weapon
+    global weapons
 
-def clones_monster():
-    """"An enemy clone himself with a secret technique and attack the player! Which is the true one?"""
-    print "CLONES MONSTER"
+    print "After passing the last obstacle, you're not feeling really well. You are affraid and stressed."
+    print "You hear some sort of motor noise and suddenly you see two men on motorbikes appear in the distance."
+    print "Now they are coming in your direction. What do you do?"
+    print "1. Hit the man on the right"
+    print "2. Hit the other man"
+    print "3. Wait until they are in front of you"
+    if weapon:
+        print "4. Use your %s" % weapon
+    else:
+        print ""
+
+    motorbike_men = raw_input("> ")
+
+    if motorbike_men in ["1", "2"]:
+        print "You run in the direction of the motorbike, jump with your two feet forward and hit the man directly in his chest."
+        print "You hurt yourself by falling on the ground but it seems that the man will not move after a moment."
+        print "The other man, angry for what you have done to his friend, rushes on you and hit you with his motorbike."
+        dead("You roll on the ground and the man finishes you by rolling on you with his bike.")
+    elif motorbike_men == "3":
+        print "The men come in front of you. They have retro-style haircuts and wooden katanas."
+        print "They're quite friendly and one of them gives you his motorbike."
+        print "Now you're feeling better and you continue your way on your new motorbike."
+        clones_monster(True)
+    elif motorbike_men == "4":
+
+        if use_weapon('motorbike_men'):
+            print "You take the motorbike of one of the two men and continue your way on your new motorbike."
+            clones_monster(True)
+        else:
+            print "The men come in front of you. They have retro-style haircuts and wooden katanas."
+            print "They're wondering why you have a %s in your hand but they didn't pay more attention to that." % weapon
+            print "They're quite friendly and one of them gives you his motorbike."
+            print "Now you're feeling better and you continue your way on your new motorbike."
+            clones_monster(True)
+    else:
+        print "You're so stressed that you try to run backward but you fall on the ground."
+        print "The men come in front of you. They have retro-style haircuts and wooden katanas."
+        print "They're wondering why you are on the ground and they help you get up."
+        print "They're quite friendly and one of them gives you his motorbike."
+        print "Now you're feeling better and you continue your way on your new motorbike."
+        clones_monster(True)
+
+def clones_monster(motorbike):
+    """"An enemy clone himself with a secret technique and attack the player! Which is the true one?
+        :param motorbike: boolean who tell if the player have a motorbike or not
+    """
+    if not motorbike:
+        print "On your way you find an abandoned motorbike. You take it and continue your way with it."
+    else:
+        print "Your roll at full speed between the piles of trash."
+
+    print "After rolling on your bike for a moment you see a man in the horizon. You stop and look in his direction."
+    print "The man is staring at you. It feels like he was waiting for you."
+    print "You see him moving is hands rapidly and then there's a big explosion of smoke."
+    print "The smoke disappear slowly and you see more than one figure in the distance. There's now ten men staring at you!"
+    print "They all run at you with weapons in their hands! You have to find the original."
+    clones = ['O ', 'O ', 'O ', 'O ', 'O ', 'O ', 'O ', 'O ', 'O ', 'O ']
+    original = randint(0, len(clones) - 1) # We choose a random number that the player will have to find (from 0 to the length of the 'clones' tab)
+    nbAssault = 1
+
+    while True:
+        print_clones(clones)
+        print "which one do you want to hit?"
+        hit = raw_input("> ")
+        if hit in ["1","2","3","4","5","6","7","8","9","10"] and nbAssault < 4:
+            print "You rush at them at full speed with your motorbike and you hit one of them with a punch in the face."
+            hit = int(hit)
+            clones[hit - 1] = 'X '
+
+            if hit - 1 == original:
+                print "The man fly in the air and all the clones disappear in a cloud of smoke as he crashes on the ground."
+                print "He recover hardly, stares at you again and also disappear in a cloud of smoke."
+                print "After you stop a few seconds to watch the smoke disappear, you go back on your way."
+                print "\n\nThere's still nothing here."
+                print "\nBut now you feel a bit stronger and the will to continue is still with you. For the moment..."
+                exit()
+            elif hit - 1 > original:
+                print "The man explode in a cloud of smoke, it was not him."
+                print "It seems that the original is more to the left."
+            elif hit - 1 < original:
+                print "The man explode in a cloud of smoke, it was not him."
+                print "It seems that the original is more to the right."
+            else:
+                dead("You fall off your motorbike and get crushed on the ground.")
+
+            print "You brake and make a drift with your bike to turn back."
+            print "The men also turn back. This time they will do everything to catch you."
+            nbAssault += 1
+        else:
+            print "You wanted to hit one of them with your punch but you accidentally run into him."
+            print "You make a loop with your bike and by chance you land on your wheels."
+            print "As you come back to your minds you notice that there is a big pile of trash just in front of you."
+            dead("You hit the pile of trash and get crushed.")
 
 def dead(why):
     """Tell the player why he/she's dead and end the adventure."""
     print why, "Good job!"
     exit(0)
+
+start()
