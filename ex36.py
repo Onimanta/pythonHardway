@@ -398,17 +398,21 @@ def clones_monster(motorbike):
     print "The man is staring at you. It feels like he was waiting for you."
     print "You see him moving is hands rapidly and then there's a big explosion of smoke."
     print "The smoke disappear slowly and you see more than one figure in the distance. There's now ten men staring at you!"
-    print "They all run at you with weapons in their hands! You have to find the original."
-    clones = ['O ', 'O ', 'O ', 'O ', 'O ', 'O ', 'O ', 'O ', 'O ', 'O ']
+    print "They all run at you with weapons in their hands! You have to rapidly find the original."
+    clones = ['O ' for i in range(10)]
     original = randint(0, len(clones) - 1) # We choose a random number that the player will have to find (from 0 to the length of the 'clones' tab)
-    nbAssault = 1
+    nbAssault = 0
+    hitlist = [str(i) for i in range(1, len(clones) + 1)] # used to know if the player already tried to hit an enemy
 
-    while True:
+    while nbAssault < 4:
         print_clones(clones)
         print "which one do you want to hit?"
         hit = raw_input("> ")
-        if hit in ["1","2","3","4","5","6","7","8","9","10"] and nbAssault < 4:
+        if hit in hitlist:
             print "You rush at them at full speed with your motorbike and you hit one of them with a punch in the face."
+            index = hitlist.index(hit) # We find the position at which the hit number is in 'hitlist'
+            hitlist.pop(index) # We remove the number the player choose so that it miss if he try the same number again
+
             hit = int(hit)
             clones[hit - 1] = 'X '
 
@@ -429,17 +433,22 @@ def clones_monster(motorbike):
                 dead("You fall off your motorbike and get crushed on the ground.")
 
             print "You brake and make a drift with your bike to turn back."
-            print "The men also turn back. This time they will do everything to catch you."
+            print "The men are already running in your direction, not sure that you can dodge them one more time."
             nbAssault += 1
         else:
-            print "You wanted to hit one of them with your punch but you accidentally run into him."
+            print "You wanted to hit one of them with your fist but you accidentally run into him."
             print "You make a loop with your bike and by chance you land on your wheels."
             print "As you come back to your minds you notice that there is a big pile of trash just in front of you."
             dead("You hit the pile of trash and get crushed.")
+
+    print "You try to rush at them again but they are too close. They all jump on you and your motorbike."
+    print "You fall off your bike and as the clones keep you on the ground one of them come in front of you."
+    print "He is standing next to you. He stops a few seconds, looks you in the eyes and smash your head with his foot."
+    exit() # Here the player is dead but we don't use the dead() function to keep the dramatic effect (we avoid the "Good Job!")
 
 def dead(why):
     """Tell the player why he/she's dead and end the adventure."""
     print why, "Good job!"
     exit(0)
 
-start()
+clones_monster(True)
