@@ -1,0 +1,105 @@
+KEYWORDS
+and         et logique
+as          permet de définir un alias lors de l'import d'un module ou dans d'autre context
+assert      permet de lever une erreur lorsqu'une condition est fausse.
+break       permet d'arrêter le déroulement d'une boucle
+class       permet de définir une nouvelle classe en python
+continue    saute directement à la prochaine itération de la boucle
+def         permet de définir une fonction
+del         supprime le contenu d'une variable ou d'un élément d'une liste ou d'un dictionnaire. Utile pour plus de lisibilité : "del var" plutôt que "var = None"
+elif        ajoute une nouvelle entrée à un if avec une autre condition (sinon si)
+else        entrée par défaut d'un if. si les autres conditions sont False on va dans le else
+except      si le code contenu dans le "try" génère une exeption le code contenu dans "except" sera éxécuté
+exec        permet d'executer du code contenu dans une chaine de caractères
+finally     va de pair avec "try" et "except". le code contenu dans "finally" est toujours executé. si une exception n'est pas géré dans un "except" le code dans "finally" sera executé
+for         permet de boucler sur une liste d'élément
+from        précise le module duquel on aimerait importer une fonctionnalité. s'utilise de pair avec "import"
+global      permet definir une variable, fonction, classe de façon global
+if          permet de poser une condition à l'éxecution d'un bloque de code
+import      permet d'importer les fonctionnalités d'un module ou des fonctionnalité en particulier si couple avec "import"
+in          permet de tester si une valeur est contenue dans une sequence
+is          permet de tester si un objet est identique à un autre
+lambda      permet de définir une fonction anonyme sur une ligne. utilisé par exemple lorsqu'on veut retourné une fonction avec une fonction ou qu'on veut passé une fonction en paramètre
+not         permet de donner l'inverse d'une expression
+or          ou logique
+pass        pass ne fait rien. il peut être utilisé pour remplir une fonction en attendant d'écrire son code par exemple
+print       output une chaine de caractère à la console
+raise       permet de lever une exeption
+return      permet de retourner une valeur dans une fonction
+try         permet de créer un block de code dans lequel les exeptions seront gérées.
+while       permet de boucler sur une condition (on boucle si elle est vraie)
+with        est utilisé pour wrapper un bloque de code de manière à ce que la méthode qui termine le bloque de code soit toujours appelée (par exemple close() lorsqu'on travail sur un fichier)
+yield       "yield" est utilisé comme "return" à l'intérieur d'une fonction sauf qu'il va retourner un generator.
+             un generator est utilisé pour stocker une "fonction" et va retourner les valeurs en resultant une à une plutôt que de stocker toutes les valeurs(comme une variable)
+
+DATA TYPES
+True        booléen, vrai
+False       booléen, faux
+None        valeur nul
+strings     texte
+numbers     nombre
+floats      nombre à virgule
+lists       liste d'élément
+dicts       dictionnaire contenant plusieurs éléments (clé: valeur)
+
+STRING ESCAPE SEQUENCES
+\\          \
+\'          '
+\"          "
+\a          ASCII bell
+\b          ASCII backspace
+\f          ASCII formfeed
+\n          retour à la ligne
+\r          ASCII carriage return
+\t          tabulation
+\v          tabulation verticale
+
+STRING FORMAT
+%d          nombre
+%i          idem que %d
+%o          nombre octal
+%u          décimal non signé
+%x          hexadecimal minuscule
+%X          hexadecimal majuscule
+%e          notation exponentielle
+%E          idem mais majuscule
+%f          nombre à virgule
+%F          idem que %f
+%g          le plus court entre %f ou %e
+%G          idem que %g mais majuscule
+%c          caractère
+%r          raw
+%s          chaine
+%%          le signe %
+
+OPERATORS
++           addition
+-           soustraction
+*           multiplication
+**          puissance
+/           division
+//          on divise et on enlève la virgule
+%           modulo
+<           plus petit que
+>           plus grand que
+<=          plus petit ou égal
+>=          plus grand ou égal
+==          égalité
+!=          différent que
+<>          différent que (old)
+( )         tuple
+[ ]         liste
+{ }         dictionnaire
+@           at, décorateur
+,           virgule (utilisé dans les listes par exemples)
+:           deux point (utilisé dans les dictionnaires, pour la définition de fonctio, etc.)
+.           point (utilisé pour accéder à la fonction d'un module par exemple)
+=           assignation
+;           deux point (utilisé pour écrire plusieurs instructions sur une lignes)
++=          addition à une variable
+-=          idem
+*=          idem
+/=          idem
+//=         idem
+%=          idem
+**=         idem
