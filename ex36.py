@@ -451,4 +451,4 @@ def dead(why):
     print why, "Good job!"
     exit(0)
 
-clones_monster(True)
+start()
