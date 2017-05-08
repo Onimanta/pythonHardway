@@ -1,4 +1,4 @@
-from random import sample # used to choose the 3 working escape pods (out of 5)
+from random import sample # used to choose the 3 working escape pods
 
 class Engine(object):
 
@@ -42,7 +42,7 @@ class CentralCorridor(Scene):
         print "You are now in the central corridor."
 
         print "You believed that you were alone but a Gothon show up in front of you!"
-        print "You choose to you use the last weapon you have left: your sense of humor."
+        print "You choose to use the last weapon you have left: your sense of humor."
         print "Tell a joke to the Gothon."
         print "1. What is better than one Gothon?.. Two Gothon!"
         print "2. There 3 Gothons on a space boat. One of them jump in the water..hum..the space.. ..and.."
@@ -57,7 +57,7 @@ class CentralCorridor(Scene):
             print "Your joke didn't make the Gothon laugh so he put you in an hyper securised cell."
             death = Death("You'll spend the rest of your life prisoner from the Gothons, peeling space potatoes.")
             death.enter()
-        elif joke == "tp":
+        elif joke == "tp": # cheat code to go directly to the escape pod
             return 'escape_pod'
         else:
             print "You don't know what to do so you just go back to your cell."
@@ -76,18 +76,14 @@ class LaserWeaponArmory(Scene):
 
         nb_of_try = 0
 
-        while True:
+        while nb_of_try < 3:
             print "What do you do?"
             print "1. Try to type a code on the bomb's keyboard"
             print "2. Search for more information in the room"
 
             code = raw_input("> ")
 
-            if nb_of_try >= 2:
-                print "A Gothon show up in the room. He captures you and puts you in an hyper securised cell."
-                death = Death("You'll spend the rest of your life prisoner from the Gothons, peeling space potatoes.")
-                death.enter()
-            elif code == "1":
+            if code == "1":
                 print "An annoying noise coming from the bomb tells you that you have typed the wrond code."
                 nb_of_try += 1
             elif code == "2":
@@ -99,6 +95,10 @@ class LaserWeaponArmory(Scene):
                 return 'the_bridge'
             else:
                 print "You're trying to shake the bomb. It don't seem to work."
+
+        print "A Gothon show up in the room. He captures you and puts you in an hyper securised cell."
+        death = Death("You'll spend the rest of your life prisoner from the Gothons, peeling space potatoes.")
+        death.enter()
 
 class TheBridge(Scene):
 
