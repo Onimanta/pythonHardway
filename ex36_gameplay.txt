@@ -1,0 +1,10 @@
+épee : tuer petit monstre
+bouclier : se protéger de monstre
+baquette magique : eviter pièges
+
+situations / ebm :
+petit monstre ebm
+gros monstre bm
+choisir intrus (list) m
+deux monstre e
+monstre clone (random)
