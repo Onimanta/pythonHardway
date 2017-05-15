@@ -79,9 +79,9 @@ def use_weapon(foe):
             worked = True
         elif foe == 'monster':
             print "You throw the dead fish in his face."
-            print "The monster, disgusted, goes back home (some says that he becomes a family monster)."
+            print "The monster, disgusted, goes back home (some says that he became a family monster)."
             worked = True
-        elif foe == 'door_enigma':
+        elif foe == 'door':
             print "You take the dead fish out of your pocket and you look at him."
             print "After a moment of reflexion your start slamming it violently on the keyboard."
             print "The snake, terrorized by what you're doing, go away in a hurry. The giant door opens slowly."
@@ -173,9 +173,14 @@ def start():
             print "%d. %s" % (i, item)
             i += 1
 
-        item = int(raw_input("> "))
+        item = raw_input("> ")
 
-        if item <= len(weapons) and item > 0:
+        # We create a list of possible player choices to compare it to his input.
+        # This is used to know if he take a weapon correctly without having to convert the input to int (and risk conversion errors).
+        pick_weapon = str(range(1,len(weapons) + 1))
+
+        if item in pick_weapon:
+            item = int(item)
             weapon = weapons[item - 1]
             weapons.pop(item - 1)
             print "After picking the item, you wander randomly trough the area."
@@ -199,8 +204,6 @@ def monster():
     print "2. Wake him up"
     if weapon:
         print "3. Use your %s" % weapon
-    else:
-        print ""
 
     man = raw_input("> ")
 
@@ -224,7 +227,7 @@ def monster():
             print "You stare at the man with an empty look on your face."
             dead("He shoots you and you explode in a rain of blood.")
 
-    elif man == "3":
+    elif man == "3" and weapon:
 
         if use_weapon('man'):
             print "You continue your way randomly."
@@ -254,8 +257,6 @@ def big_monster():
         print "2. Insult the mother of the monster"
         if weapon:
             print "3. Use your %s" % weapon
-        else:
-            print ""
 
         monster = raw_input("> ")
 
@@ -273,7 +274,7 @@ def big_monster():
         elif monster == "2" and not monster_moved:
             print "The monster really don't liked what you did. He runs at you to crush you."
             monster_moved = True
-        elif monster == "3":
+        elif monster == "3" and weapon:
 
             if use_weapon('monster'):
                 print "After you tamed the monster, you continue your way."
@@ -303,8 +304,6 @@ def door_enigma():
         print "2. Give a kick to the door"
         if weapon:
             print "3. Use your %s" % weapon
-        else:
-            print ""
 
         keyboard = raw_input("> ")
 
@@ -327,7 +326,7 @@ def door_enigma():
             else:
                 dead("The screen explode and it blows your head off.")
 
-        elif keyboard == "3":
+        elif keyboard == "3" and weapon:
 
             if use_weapon('door'):
                 print "You pass the door and continue your way."
@@ -351,8 +350,6 @@ def two_monsters():
     print "3. Wait until they are in front of you"
     if weapon:
         print "4. Use your %s" % weapon
-    else:
-        print ""
 
     motorbike_men = raw_input("> ")
 
@@ -366,7 +363,7 @@ def two_monsters():
         print "They're quite friendly and one of them gives you his motorbike."
         print "Now you're feeling better and you continue your way on your new motorbike."
         clones_monster(True)
-    elif motorbike_men == "4":
+    elif motorbike_men == "4" and weapon:
 
         if use_weapon('motorbike_men'):
             print "You take the motorbike of one of the two men and continue your way on your new motorbike."
