@@ -85,6 +85,7 @@ def use_weapon(foe):
             print "You take the dead fish out of your pocket and you look at him."
             print "After a moment of reflexion your start slamming it violently on the keyboard."
             print "The snake, terrorized by what you're doing, go away in a hurry. The giant door opens slowly."
+            worked = True
         else:
             print "The %s didn't worked on the %s." % (weapon, foe)
             worked = False
